@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>$(AssemblyName)</Title>
+    <Authors>Dustin Horne</Authors>
+    <Company>ParentElement, LLC</Company>
+    <Description>.NET Process Wrapper for asyncronous process execution</Description>
+    <Copyright>2024</Copyright>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+</Project>
