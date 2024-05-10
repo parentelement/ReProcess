@@ -1,4 +1,4 @@
-﻿namespace ReProcess
+﻿namespace ParentElement.ReProcess
 {
     /// <summary>
     /// A builder class for constructing <see cref="Command"/> instances.
@@ -16,7 +16,7 @@
         /// Creates a new <see cref="CommandBuilder"/> instance with the specified command name.
         /// </summary>
         /// <param name="commandName">The name of the executable</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="commandName"/> is null or empty</exception>
         public static CommandBuilder Create(string commandName)
         {
@@ -30,7 +30,7 @@
         /// Supplies an argument to the generated <see cref="Command"/>.
         /// </summary>
         /// <param name="argument">A <see langword="string" /> representing the argument or arguments to include</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="argument"/> is null or zero length</exception>
         public CommandBuilder WithArgument(string argument)
         {
@@ -45,7 +45,7 @@
         /// Supplies arguments to the generated <see cref="Command"/>.
         /// </summary>
         /// <param name="arguments">The collection of arguments to include</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="arguments"/> is null</exception>
         public CommandBuilder WithArguments(IEnumerable<string> arguments)
         {
@@ -61,10 +61,10 @@
         }
 
         /// <summary>
-        /// Defines the working directory for the constructed <see cref="Command">.
+        /// Defines the working directory for the constructed <see cref="Command" />.
         /// </summary>
         /// <param name="path">A <see langword="string"/> representing the Working Directory for the command</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="path"/> is specified and not a valid directory</exception>
         public CommandBuilder WithWorkingDirectory(string path)
         {
@@ -80,7 +80,7 @@
         /// </summary>
         /// <param name="key">The name of the environment variable to add</param>
         /// <param name="value">The value of the specified environment variable</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> is null</exception>
         public CommandBuilder WithEnvironmentVariable(string key, string value)
         {
@@ -103,7 +103,7 @@
         /// Enables output of StdOut and StdErr messages to be read by "M:ReProcess.Command.ReadOutputAsync".
         /// </summary>
         /// <param name="maxMessageCount">The number of StdOut and StdErr messages to keep in the buffer at one time.  Default is no limit</param>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="maxMessageCount"/> is non-null and non-positive</exception>
         public CommandBuilder WithOutput(int? maxMessageCount = null)
         {
@@ -118,7 +118,7 @@
         /// <summary>
         /// Removes the delay between messsage output.  By default, the delay is 50ms per iteration.
         /// </summary>
-        /// <returns>The current <see cref="CommandBuilder"> instance </returns>
+        /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
         public CommandBuilder WithAggressiveOutputProcessing()
         {
             _definition.UseAggressiveOutputProcessing = true;
