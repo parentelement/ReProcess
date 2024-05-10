@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReProcess", "ReProcess.csproj", "{0287F29A-426F-475F-9AAF-6F2A515CCB9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParentElement.ReProcess", "ParentElement.ReProcess.csproj", "{0287F29A-426F-475F-9AAF-6F2A515CCB9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,8 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 
-namespace ReProcess
+namespace ParentElement.ReProcess
 {
+    /// <summary>
+    /// Represents a command that can be executed by the system.
+    /// </summary>
     public sealed class Command
     {
         private Process _process;
@@ -71,7 +74,7 @@ namespace ReProcess
         /// <summary>
         /// Attempts to run the configured process.
         /// </summary>
-        /// <returns><see langword="true""/> if the process starts successfully.  <see langword="false"/> if the process failed or was already running</returns>
+        /// <returns><see langword="true"/> if the process starts successfully.  <see langword="false"/> if the process failed or was already running</returns>
         public bool Start()
         {
             if (_isRunning) return false;

@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Title>$(AssemblyName)</Title>		
+		<AssemblyVersion>0.0.1</AssemblyVersion>
+		<FileVersion>0.0.1</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Dustin Horne</Authors>
+		<Company>ParentElement, LLC</Company>
+		<Description>.NET Process Wrapper for asyncronous process execution</Description>
+		<PackageProjectUrl>https://github.com/parentelement/ReProcess</PackageProjectUrl>
+		<PackageTags>library, process, wrapper</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>2024</Copyright>
+		<EnablePackageValidation>true</EnablePackageValidation>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageId>ParentElement.ReProcess</PackageId>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="MinVer" Version="5.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>

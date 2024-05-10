@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ReProcess
+namespace ParentElement.ReProcess
 {
     internal sealed class CommandDefinition
     {
