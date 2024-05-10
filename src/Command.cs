@@ -28,20 +28,25 @@ namespace ReProcess
             _process.Exited += (sender, args) =>
             {
                 _isRunning = false;
+
+                if (_buffer == null)
+                    return;
+
+                _buffer?.Writer.TryComplete();
             };
 
             if (_definition.RelayOutput)
             {
-                _process.OutputDataReceived += async (sender, args) =>
+                _process.OutputDataReceived += (sender, args) =>
                 {
                     if (!string.IsNullOrWhiteSpace(args.Data))
-                        await _buffer!.Writer.WriteAsync(new ConsoleMessage(this, args.Data, MessageType.Output));
+                        _buffer!.Writer.TryWrite(new ConsoleMessage(this, args.Data, MessageType.Output));
                 };
 
-                _process.ErrorDataReceived += async (sender, args) =>
+                _process.ErrorDataReceived += (sender, args) =>
                 {
                     if (!string.IsNullOrWhiteSpace(args.Data))
-                        await _buffer!.Writer.WriteAsync(new ConsoleMessage(this, args.Data, MessageType.Error));
+                        _buffer!.Writer.TryWrite(new ConsoleMessage(this, args.Data, MessageType.Error));
                 };
             }
         }
@@ -83,11 +88,6 @@ namespace ReProcess
                 _process.BeginErrorReadLine();
             }
 
-            Task.Run(() =>
-            {
-                _process.WaitForExit();
-            });
-
             return _isRunning;
         }
 
@@ -98,30 +98,16 @@ namespace ReProcess
         /// <returns></returns>
         public async IAsyncEnumerable<ConsoleMessage> ReadOutputAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            if (!_definition.RelayOutput)
+            if (_buffer == null || !_definition.RelayOutput)
                 yield break;
 
-            do
+            await foreach (var consoleMessage in _buffer.Reader.ReadAllAsync(cancellationToken))
             {
-                while (_buffer!.Reader.Count > 0)
-                {
-                    var message = await _buffer.Reader.ReadAsync();
-                    yield return message;
-                }
+                yield return consoleMessage;
 
-                if (!_definition.UseAggressiveOutputProcessing)
-                    await Task.Delay(50);
-
-            } while (_isRunning && !cancellationToken.IsCancellationRequested);
-
-            //Output any remaining messages
-            while (_buffer.Reader.Count > 0 && !cancellationToken.IsCancellationRequested)
-            {
-                var message = await _buffer.Reader.ReadAsync();
-                yield return message;
+                if(!_definition.UseAggressiveOutputProcessing)
+                    await Task.Delay(10);
             }
-
-            yield break;
         }
 
         /// <summary>
@@ -137,7 +123,7 @@ namespace ReProcess
         {
             while (_isRunning)
             {
-                if (_definition.UseAggressiveOutputProcessing)
+                if (!_definition.UseAggressiveOutputProcessing)
                     await Task.Delay(50);
             }
 
