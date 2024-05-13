@@ -10,6 +10,7 @@ var cmd = CommandBuilder.Create("ping")
 cmd.Start();
 ```
 ## Full Example
+```
 var cmd = CommandBuilder.Create("docker")
     .WithArgument("build")
     .WithArgument("-f Dockerfile")
@@ -39,3 +40,4 @@ else
 {
     await Console.Out.WriteLineAsync("Process failed to start");
 }
+```
