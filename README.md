@@ -7,7 +7,7 @@ var cmd = CommandBuilder.Create("ping")
   .WithArgument("127.0.0.1")
   .Build();
 
-cmd.Start();
+cmd.Start(cancellationToken);
 ```
 ## Full Example
 ```
@@ -25,7 +25,7 @@ var cmd = CommandBuilder.Create("docker")
     .WithOutput(1000) //Only cache the last 1k messages if unprocessed
     .Build();
 
-if(cmd.Start())
+if(cmd.Start(cancellationToken))
 {
     await foreach (var msg in cmd.ReadOutputAsync(cancellationToken))
     {
