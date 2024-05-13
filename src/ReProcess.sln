@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParentElement.ReProcess", "ParentElement.ReProcess.csproj", "{0287F29A-426F-475F-9AAF-6F2A515CCB9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentElement.ReProcess.Tests", "..\ParentElement.ReProcess.Tests\ParentElement.ReProcess.Tests.csproj", "{6CD45A2A-80FB-4B69-94D7-C3B488002895}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0287F29A-426F-475F-9AAF-6F2A515CCB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0287F29A-426F-475F-9AAF-6F2A515CCB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0287F29A-426F-475F-9AAF-6F2A515CCB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD45A2A-80FB-4B69-94D7-C3B488002895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD45A2A-80FB-4B69-94D7-C3B488002895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD45A2A-80FB-4B69-94D7-C3B488002895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD45A2A-80FB-4B69-94D7-C3B488002895}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
