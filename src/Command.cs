@@ -12,6 +12,7 @@ namespace ParentElement.ReProcess
         private Process _process;
         private bool _isRunning = false;
         private CommandDefinition _definition;
+        private CancellationToken _token;
 
         private Channel<ConsoleMessage>? _buffer;
 
@@ -27,6 +28,113 @@ namespace ParentElement.ReProcess
             _process.StartInfo = definition.ToProcessStartInfo();
 
             ConfigureProcess();
+        }
+
+        /// <summary>
+        /// Attempts to run the configured process.
+        /// </summary>
+        /// <returns><see langword="true"/> if the process starts successfully.  <see langword="false"/> if the process failed or was already running</returns>
+        public bool Start(CancellationToken cancellationToken)
+        {
+            if (_isRunning) return false;
+
+            _isRunning = true;
+
+            CreateOutputBuffer();
+
+            _isRunning = _process.Start();
+
+            if(_isRunning)
+            {
+                var s = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                _token = s.Token;
+                _token.Register(Kill);
+            }
+
+            if (_definition.RelayOutput)
+            {
+                _process.BeginOutputReadLine();
+                _process.BeginErrorReadLine();
+            }
+
+            return _isRunning;
+        }
+
+        /// <summary>
+        /// Attempts to run the configured process asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken">Token used to cancel the process</param>
+        /// <returns></returns>
+        public Task<bool> StartAsync(CancellationToken cancellationToken)
+        {
+            if(_isRunning) 
+                return Task.FromResult(false);
+
+            _isRunning = true;
+
+            CreateOutputBuffer();
+
+            return Task.Run(() =>
+            {
+                _isRunning = _process.Start();
+
+                if (_isRunning)
+                {
+                    var s = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                    _token = s.Token;
+                    _token.Register(Kill);
+                }
+
+                if (_definition.RelayOutput)
+                {
+                    _process.BeginOutputReadLine();
+                    _process.BeginErrorReadLine();
+                }
+
+                return _isRunning;
+            });
+        }
+
+        /// <summary>
+        /// Kills the process if it is running.
+        /// </summary>
+        public void Kill() => _process.Kill();
+
+        /// <summary>
+        /// If "M:ReProcess.CommandBuilder.WithOutput" was called, this method will return the output of the process as it is written to StdOut and StdErr.
+        /// </summary>
+        /// <param name="cancellationToken">Token used to cancel the process</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<ConsoleMessage> ReadOutputAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            if (_buffer == null || !_definition.RelayOutput)
+                yield break;
+
+            await foreach (var consoleMessage in _buffer.Reader.ReadAllAsync(cancellationToken))
+            {
+                if (_token.IsCancellationRequested)
+                    yield break; // Exit early if cancellation was requested from the start token
+
+                yield return consoleMessage;
+
+                if (!_definition.UseAggressiveOutputProcessing)
+                    await Task.Delay(10);
+            }
+        }
+
+        /// <summary>
+        /// Waits for the process to exit.
+        /// </summary>
+        /// <returns>The Exit Code supplied by the process</returns>
+        public async Task<int> WaitForExitAsync()
+        {
+            while (_isRunning)
+            {
+                if (!_definition.UseAggressiveOutputProcessing)
+                    await Task.Delay(50);
+            }
+
+            return _process.ExitCode;
         }
 
         private void ConfigureProcess()
@@ -74,68 +182,6 @@ namespace ParentElement.ReProcess
                            SingleReader = true,
                        }
                    );
-        }
-
-        /// <summary>
-        /// Attempts to run the configured process.
-        /// </summary>
-        /// <returns><see langword="true"/> if the process starts successfully.  <see langword="false"/> if the process failed or was already running</returns>
-        public bool Start()
-        {
-            if (_isRunning) return false;
-
-            _isRunning = true;
-
-            CreateOutputBuffer();
-
-            _isRunning = _process.Start();
-
-            if (_definition.RelayOutput)
-            {
-                _process.BeginOutputReadLine();
-                _process.BeginErrorReadLine();
-            }
-
-            return _isRunning;
-        }
-
-        /// <summary>
-        /// If "M:ReProcess.CommandBuilder.WithOutput" was called, this method will return the output of the process as it is written to StdOut and StdErr.
-        /// </summary>
-        /// <param name="cancellationToken">Token used to cancel the process</param>
-        /// <returns></returns>
-        public async IAsyncEnumerable<ConsoleMessage> ReadOutputAsync([EnumeratorCancellation] CancellationToken cancellationToken)
-        {
-            if (_buffer == null || !_definition.RelayOutput)
-                yield break;
-
-            await foreach (var consoleMessage in _buffer.Reader.ReadAllAsync(cancellationToken))
-            {
-                yield return consoleMessage;
-
-                if(!_definition.UseAggressiveOutputProcessing)
-                    await Task.Delay(10);
-            }
-        }
-
-        /// <summary>
-        /// Kills the process if it is running.
-        /// </summary>
-        public void Kill() => _process.Kill();
-
-        /// <summary>
-        /// Waits for the process to exit.
-        /// </summary>
-        /// <returns>The Exit Code supplied by the process</returns>
-        public async Task<int> WaitForExitAsync()
-        {
-            while (_isRunning)
-            {
-                if (!_definition.UseAggressiveOutputProcessing)
-                    await Task.Delay(50);
-            }
-
-            return _process.ExitCode;
         }
     }
 }
