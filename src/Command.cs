@@ -15,6 +15,11 @@ namespace ParentElement.ReProcess
 
         private Channel<ConsoleMessage>? _buffer;
 
+        /// <summary>
+        /// Exit Code of the process.  Will be <see langword="null"/> if the process is still running.
+        /// </summary>
+        public int? ExitCode => _isRunning ? null : _process.ExitCode;
+
         internal Command(CommandDefinition definition)
         {
             _definition = definition;
