@@ -79,6 +79,9 @@ namespace ParentElement.ReProcess
 
             await foreach (var consoleMessage in _buffer.Reader.ReadAllAsync(cancellationToken))
             {
+                if (_token.IsCancellationRequested)
+                    yield break; // Exit early if cancellation was requested from the start token
+
                 yield return consoleMessage;
 
                 if (!_definition.UseAggressiveOutputProcessing)
