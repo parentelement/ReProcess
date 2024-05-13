@@ -60,7 +60,35 @@ namespace ParentElement.ReProcess
         /// </summary>
         /// <param name="cancellationToken">Token used to cancel the process</param>
         /// <returns></returns>
-        public Task<bool> StartAsync(CancellationToken cancellationToken) => Task.Run(() => Start(cancellationToken));
+        public Task<bool> StartAsync(CancellationToken cancellationToken)
+        {
+            if(_isRunning) 
+                return Task.FromResult(false);
+
+            _isRunning = true;
+
+            CreateOutputBuffer();
+
+            return Task.Run(() =>
+            {
+                _isRunning = _process.Start();
+
+                if (_isRunning)
+                {
+                    var s = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                    _token = s.Token;
+                    _token.Register(Kill);
+                }
+
+                if (_definition.RelayOutput)
+                {
+                    _process.BeginOutputReadLine();
+                    _process.BeginErrorReadLine();
+                }
+
+                return _isRunning;
+            });
+        }
 
         /// <summary>
         /// Kills the process if it is running.
