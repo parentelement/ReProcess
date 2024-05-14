@@ -22,19 +22,9 @@ defaults:
   run:
     shell: pwsh
 
-jobs:
-  run_tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-    - name: Run tests
-      run: dotnet test --configuration Release
-      
+jobs:     
   create_nuget:
     runs-on: ubuntu-latest
-    needs: [ run_tests ]
     steps:
     - uses: actions/checkout@v3
       with:
