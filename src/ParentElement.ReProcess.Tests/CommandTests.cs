@@ -65,9 +65,11 @@ namespace ParentElement.ReProcess.Tests
         public async Task WithOutput_ShouldLimitMessageBufferSize()
         {
             var rnd = new Random();
-            var targetCount = rnd.Next(1, 4);
+            var targetCount = rnd.Next(3, 10);
 
             var cmd = CommandBuilder.Create("dotnet")
+                .WithArgument("--help")
+                .WithAggressiveOutputProcessing()
                 .WithOutput(targetCount)
                 .Build();
 
