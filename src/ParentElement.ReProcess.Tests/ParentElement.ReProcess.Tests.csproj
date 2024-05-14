@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\ParentElement.ReProcess.csproj" />
+    <ProjectReference Include="..\ParentElement.ReProcess\ParentElement.ReProcess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
