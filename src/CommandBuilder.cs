@@ -69,7 +69,7 @@
         public CommandBuilder WithWorkingDirectory(string path)
         {
             if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
-                throw new ArgumentException("The specified directory does not exist", nameof(path));
+                throw new DirectoryNotFoundException("The specified working directory does not exist.");
 
             _definition.WorkingDirectory = path;
             return this;
