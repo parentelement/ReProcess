@@ -54,6 +54,9 @@
 
             foreach(var arg in arguments)
             {
+                if (string.IsNullOrEmpty(arg))
+                    continue;
+
                 _definition.Arguments.Add(arg);
             }
 
