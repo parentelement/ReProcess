@@ -7,7 +7,7 @@ var cmd = CommandBuilder.Create("ping")
   .WithArgument("127.0.0.1")
   .Build();
 
-cmd.Start();
+cmd.Start(cancellationToken);
 ```
 ## Full Example
 ```
@@ -18,14 +18,14 @@ var cmd = CommandBuilder.Create("docker")
     .WithArgument("--build-arg POSTGRES_PASSWORD=$uper$ecretPa$$w0rd")
     .WithArgument("--progress=plain")
     .WithArgument("--no-cache")
-    .WithArgument($"-t {_name}:latest")
+    .WithArgument("-t MyCustomImage:latest")
     .WithArgument(".")
     .WithWorkingDirectory(Path.Combine(Directory.GetCurrentDirectory(), "CustomContainer"))
     .WithAggressiveOutputProcessing()
     .WithOutput(1000) //Only cache the last 1k messages if unprocessed
     .Build();
 
-if(cmd.Start())
+if(cmd.Start(cancellationToken))
 {
     await foreach (var msg in cmd.ReadOutputAsync(cancellationToken))
     {
