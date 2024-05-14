@@ -68,7 +68,7 @@
         /// </summary>
         /// <param name="path">A <see langword="string"/> representing the Working Directory for the command</param>
         /// <returns>The current <see cref="CommandBuilder" /> instance </returns>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="path"/> is specified and not a valid directory</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">Thrown when <paramref name="path"/> is specified and not a valid directory</exception>
         public CommandBuilder WithWorkingDirectory(string path)
         {
             if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
