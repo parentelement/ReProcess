@@ -1,3 +1,5 @@
+[![Run Tests](https://github.com/parentelement/ReProcess/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/parentelement/ReProcess/actions/workflows/run-tests.yml)
+
 # ReProcess
 Lightweight Async Executable Process Wrapper for .NET Inspired by CliWrap.  Full usage documentation in the Wiki.  Here are two basic examples, one simple and one full:
 
