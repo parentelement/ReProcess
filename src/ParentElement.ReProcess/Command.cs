@@ -118,7 +118,7 @@ namespace ParentElement.ReProcess
                 yield return consoleMessage;
 
                 if (!_definition.UseAggressiveOutputProcessing)
-                    await Task.Delay(10);
+                    await Task.Delay(50);
             }
         }
 
