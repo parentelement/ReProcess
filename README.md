@@ -3,6 +3,9 @@
 # ReProcess
 Lightweight Async Executable Process Wrapper for .NET Inspired by CliWrap.  Full usage documentation in the Wiki.  Here are two basic examples, one simple and one full:
 
+## NuGet
+ReProcess is available via NuGet:  [ParentElement.ReProcess](https://www.nuget.org/packages/ParentElement.ReProcess/)
+
 ## Simple Example
 ```
 var cmd = CommandBuilder.Create("ping")
