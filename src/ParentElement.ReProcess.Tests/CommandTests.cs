@@ -29,9 +29,14 @@ namespace ParentElement.ReProcess.Tests
         [Fact]
         public async Task ReadOutputAsync_ShouldOutputCorrectResult()
         {
-            var output = "Usage: dotnet [options]";
+            var output = "Output_Test";
 
-            var cmd = CommandBuilder.Create("dotnet")
+            var fileName = Environment.OSVersion.Platform == PlatformID.Win32NT
+                ? "testoutput.bat"
+                : "testoutput.sh";
+
+            var cmd = CommandBuilder.Create(fileName)
+                .WithArgument(output)
                 .WithOutput()
                 .Build();
 
